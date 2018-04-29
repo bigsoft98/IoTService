@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans     
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd    
+    http://www.springframework.org/schema/data/mongo
+    http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+
+    <context:component-scan base-package="me.hukun.unimelb.project.IoTService.controller" />
+
+    <mvc:annotation-driven />
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propertyConfigurer"> 
+	 	<property name="locations">
+	  		<list> 
+	  			<!-- <value>WEB-INF/tbService.properties</value> -->
+	  			<value>WEB-INF/iotService.properties</value>
+	  		</list> 
+	 	</property> 
+	</bean>
+   
+   <import resource="db-resource-servlet.xml" />
+   <!--  <import resource="mq-servlet.xml"/> -->
+   <import resource="mqtt-servlet.xml"/>
+   
+   <bean id="sensorManagementService" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultSensorManagementService"/>
+   <bean id="reactorManagementService" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultReactorManagementService"/>
+   <bean id="logicManagementService" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultLogicManagementService"/>
+   <bean id="logicImplementationService" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultLogicImplementationService"/>
+   
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/WEB-INF/html/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+    
+    <!-- 
+    <bean id ="messageConverter" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultIncomingMsgConverter"/>
+    
+   	<bean id="jmsFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name ="brokerURL" value="${activeMQ.broker.url}"/>
+	</bean>
+
+	<bean id ="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref ="jmsFactory"/>
+		<property name="defaultDestinationName" value="${iotService.inbound.topic.name}"/>
+		<property name="messageConverter" ref="messageConverter"/>
+	</bean>
+    
+    <bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    	<property name="connectionFactory" ref="jmsFactory"/>
+    	<property name="destinationName" value="${iotService.inbound.topic.name}"/>
+    	<property name="messageListener" ref="myMessageListener" /> 
+	</bean>
+	<bean id="myMessageListener" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultMsgListener"/>
+     -->
+</beans>

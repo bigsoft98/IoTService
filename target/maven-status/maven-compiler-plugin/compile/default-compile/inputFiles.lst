@@ -1,0 +1,16 @@
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/ReportingService.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/AlarmingService.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/response/AddNewDeviceResponse.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/persistant/repository/DeviceRepository.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/domain/Client.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/controller/GUIController.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/ClientManagementService.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/UserManagmentService.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/CommandService.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/controller/TransactionServiceController.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/DeviceManagementService.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/domain/User.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/response/GenericTxResponse.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/domain/Device.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/impl/DefaultDeviceManagementService.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/domain/SensorData.java
