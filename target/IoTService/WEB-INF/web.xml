@@ -4,7 +4,7 @@
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 
-	<display-name>IoTService1</display-name>
+	<display-name>IoTService</display-name>
 	<description>IoT Web Service Platform</description>
 
 	<servlet>

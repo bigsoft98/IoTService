@@ -27,9 +27,13 @@
 	</bean>
    
    <import resource="db-resource-servlet.xml" />
+   <!--  <import resource="mq-servlet.xml"/> -->
+   <import resource="mqtt-servlet.xml"/>
    
-   <bean id="deviceManagementService" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultDeviceManagementService"/>
-   
+   <bean id="sensorManagementService" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultSensorManagementService"/>
+   <bean id="reactorManagementService" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultReactorManagementService"/>
+   <bean id="logicManagementService" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultLogicManagementService"/>
+   <bean id="logicImplementationService" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultLogicImplementationService"/>
    
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
@@ -39,4 +43,25 @@
             <value>.jsp</value>
         </property>
     </bean>
+    
+    <!-- 
+    <bean id ="messageConverter" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultIncomingMsgConverter"/>
+    
+   	<bean id="jmsFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name ="brokerURL" value="${activeMQ.broker.url}"/>
+	</bean>
+
+	<bean id ="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref ="jmsFactory"/>
+		<property name="defaultDestinationName" value="${iotService.inbound.topic.name}"/>
+		<property name="messageConverter" ref="messageConverter"/>
+	</bean>
+    
+    <bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    	<property name="connectionFactory" ref="jmsFactory"/>
+    	<property name="destinationName" value="${iotService.inbound.topic.name}"/>
+    	<property name="messageListener" ref="myMessageListener" /> 
+	</bean>
+	<bean id="myMessageListener" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultMsgListener"/>
+     -->
 </beans>

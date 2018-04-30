@@ -136,10 +136,26 @@ public class TransactionServiceController {
 		
 		List<Reactor> returnList = reactorManagementService.listAllReactor();
       
-		//mqttService.publishMsg("new Test from hukun", "new");
+		mqttService.publishMsg("off", "iot/platform/command/yellowLed");
+		
+		return new ResponseEntity<List<Reactor>>(returnList,HttpStatus.OK);
+	}
+	
+	/*
+	@RequestMapping(value="/sendMqttCommand",method ={RequestMethod.POST})
+	public ResponseEntity sendMqttCommand(){
+		
+		logger.debug("Received http request for sendMqttCommand");
+		
+		List<Reactor> returnList = reactorManagementService.listAllReactor();
+      
+		mqttService.publishMsg("new Test from hukun", "new");
 		//mqttService.addSubscribeTopic("addedTopic");
 		return new ResponseEntity<List<Reactor>>(returnList,HttpStatus.OK);
 	}
+	*/
+	
+	
 	
 	
 	//-------- Reactor Command
@@ -231,7 +247,7 @@ public class TransactionServiceController {
 		logger.debug("Received http request for listLogic");
 		
 		List<Logic> returnList = logicManagementService.listAllLogics();
-		
+		mqttService.publishMsg("on", "iot/platform/command/yellowLed");
 		return new ResponseEntity<List<Logic>>(returnList,HttpStatus.OK);
 	}
 	

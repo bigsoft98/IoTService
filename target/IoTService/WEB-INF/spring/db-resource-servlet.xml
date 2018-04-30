@@ -24,8 +24,8 @@
  
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
  
-    <!-- 
+    
     <mongo:repositories base-package="me.hukun.unimelb.project.IoTService.persistant.repository" mongo-template-ref="mongoTemplate"/>
-    -->
+    
     
 </beans>
