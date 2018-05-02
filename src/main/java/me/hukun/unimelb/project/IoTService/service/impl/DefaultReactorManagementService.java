@@ -3,18 +3,23 @@ package me.hukun.unimelb.project.IoTService.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 import me.hukun.unimelb.project.IoTService.domain.Reactor;
 import me.hukun.unimelb.project.IoTService.persistant.repository.ReactorRepository;
 import me.hukun.unimelb.project.IoTService.service.ReactorManagementService;
 import me.hukun.unimelb.project.IoTService.service.response.AddNewReactorResponse;
 import me.hukun.unimelb.project.IoTService.service.response.GetReactorCommandResponse;
+import me.hukun.unimelb.project.IoTService.service.response.UpdateReactorResponse;
 
 public class DefaultReactorManagementService implements ReactorManagementService{
 	
 	@Autowired
 	ReactorRepository reactorRepository;
+
+	private static final Logger logger = Logger.getLogger(DefaultReactorManagementService.class);
 
 	public AddNewReactorResponse addReactor(Reactor newReactor) {
 		
@@ -37,10 +42,13 @@ public class DefaultReactorManagementService implements ReactorManagementService
 		
 		return response;
 	}
+	
+	
 
 	public int deleteReactor(Reactor reactor) {
 		
 		reactorRepository.delete(reactor);
+		
 		return 0;
 	}
 
@@ -61,7 +69,7 @@ public class DefaultReactorManagementService implements ReactorManagementService
 			response.setMessage("success");
 			response.setReactorId(reactor.getId());
 			response.setReactorName(reactor.getName());
-			response.setCommand(reactor.getCommand());
+			//response.setCommand(reactor.getCommand());
 			
 		}else{
 			
@@ -78,7 +86,7 @@ public class DefaultReactorManagementService implements ReactorManagementService
 		
 		if(searchReactorResult.isPresent()){
 			Reactor reactor = searchReactorResult.get();
-			reactor.setCommand(command);
+			//reactor.setCommand(command);
 			reactorRepository.save(reactor);
 			
 			return 0;
@@ -86,6 +94,43 @@ public class DefaultReactorManagementService implements ReactorManagementService
 		
 			return -1;
 		}
+	}
+
+
+
+	public int deleteReactorById(String reactorId) {
+		try{
+			reactorRepository.deleteById(reactorId);		
+			return 0;
+			
+		}catch(Exception e){
+			logger.error("Fail to delete reactor by id ("+reactorId+")");
+			return -1;
+		}
+		
+	}
+
+
+
+	public UpdateReactorResponse updateReactor(Reactor reactor) {
+		
+		UpdateReactorResponse response = new UpdateReactorResponse();
+
+		Reactor updatedReactor =reactorRepository.save(reactor);
+		
+		if(updatedReactor == null){
+			response.setUpdatedReactor(null);
+			response.setCode("-1");
+			response.setMessage("fail");
+			
+		}else{
+			
+			response.setUpdatedReactor(updatedReactor);
+			response.setCode("0");
+			response.setMessage("success");
+		}
+		
+		return response;
 	}
 
 }

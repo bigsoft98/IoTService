@@ -1,5 +1,7 @@
 package me.hukun.unimelb.project.IoTService.service.impl;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
@@ -7,7 +9,11 @@ import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
+
+import me.hukun.unimelb.project.IoTService.domain.Sensor;
+import me.hukun.unimelb.project.IoTService.service.LogicImplementationService;
 import me.hukun.unimelb.project.IoTService.service.MqttService;
+import me.hukun.unimelb.project.IoTService.service.SensorManagementService;
 
 
 public class DefaultMqttService implements MqttService{
@@ -16,6 +22,10 @@ public class DefaultMqttService implements MqttService{
 	private MqttPahoMessageHandler mqttOutboundHandler;
 	@Autowired
 	private MqttPahoMessageDrivenChannelAdapter mqttInboundAdapter;
+	@Autowired
+	SensorManagementService sensorManagementService;
+	@Autowired
+	LogicImplementationService logicImplementationService;
 	
 	private static final Logger logger = Logger.getLogger(DefaultMqttService.class);
 	
@@ -47,7 +57,20 @@ public class DefaultMqttService implements MqttService{
 
 	// Subscribe Message handler
 	public void handleSubscribeTopicMsg(Message message) {
+		
+		
 		logger.debug("Incoming Msg from topic --"+message.getHeaders().get("mqtt_receivedTopic"));
+		String topic = message.getHeaders().get("mqtt_receivedTopic").toString();
 		logger.debug("Incoming msg content --"+message.getPayload().toString());
+		String msgContent = message.getPayload().toString();
+		
+		List<Sensor> sensorList = sensorManagementService.findSensorByTopic(topic);
+		
+		for(int index = 0; index< sensorList.size(); index++){
+			
+			Sensor currentSensor = sensorList.get(index);
+			logicImplementationService.procesSensorDataUpdate(currentSensor, msgContent);
+		}
+		
 	}
 }

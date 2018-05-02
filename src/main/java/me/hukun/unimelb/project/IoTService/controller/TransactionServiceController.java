@@ -37,7 +37,9 @@ import me.hukun.unimelb.project.IoTService.service.response.AddLogicResponse;
 import me.hukun.unimelb.project.IoTService.service.response.AddNewReactorResponse;
 import me.hukun.unimelb.project.IoTService.service.response.AddNewSensorResponse;
 import me.hukun.unimelb.project.IoTService.service.response.GetReactorCommandResponse;
+import me.hukun.unimelb.project.IoTService.service.response.UpdateReactorResponse;
 import me.hukun.unimelb.project.IoTService.service.response.UpdateSensorDataResponse;
+import me.hukun.unimelb.project.IoTService.service.response.UpdateSensorResponse;
 
 @RestController
 public class TransactionServiceController {
@@ -58,6 +60,7 @@ public class TransactionServiceController {
 	
 	
 	//------- Sensor
+	//------- register new sensor
 	@RequestMapping(value="/addSensor",method ={RequestMethod.PUT,RequestMethod.POST})
 	public ResponseEntity addSensor(@RequestBody String requestAddSensor, HttpServletRequest httpRequest){
 		logger.debug("Received http request for addSensor, request data --"+requestAddSensor);
@@ -78,12 +81,23 @@ public class TransactionServiceController {
 		
 	}
 	
-	@RequestMapping(value="/deleteSensor",method ={RequestMethod.DELETE})
-	public ResponseEntity deleteSensor(){
-		
-		return null;
-	}
 	
+	//---------- delete registered sensor
+	@RequestMapping(value="/deleteSensor",method ={RequestMethod.DELETE})
+	public ResponseEntity deleteSensor(@RequestParam(value="sensorId",required=true) String sensorId){
+		
+		logger.debug("Received http request for deleteSensor , request data -- sensorId "+ sensorId);
+		
+		if(sensorManagementService.deleteSensorById(sensorId) ==0){
+			
+			return new ResponseEntity<String>("Deleted Sensor successfully",HttpStatus.OK);
+		}else{
+			return new ResponseEntity<String>("Fail to delete sensor", HttpStatus.BAD_REQUEST);
+			
+		}
+
+	}
+	//----------list all registered sensor
 	@RequestMapping(value="/listSensor",method ={RequestMethod.GET})
 	public ResponseEntity listSensor(HttpServletRequest httpRequest){
 		
@@ -94,15 +108,32 @@ public class TransactionServiceController {
 		return new ResponseEntity<List<Sensor>>(returnList,HttpStatus.OK);
 		
 	}
+	
+	
+	
 	@RequestMapping(value="/updateSensor",method ={RequestMethod.POST})
-	public ResponseEntity updateSensor(){
+	public ResponseEntity updateSensor(@RequestBody String requestUpdateSensor){
 		
-		return null;
+		logger.debug("Received http request for updateSensor, request data --"+requestUpdateSensor);
+		Sensor sensor;
+		  
+		  try {  
+			  sensor = new ObjectMapper().readValue(requestUpdateSensor, Sensor.class);
+			  logger.info("Http Request received: (sensor) --- request detail "+ sensor.toString());
+	
+			  UpdateSensorResponse response = sensorManagementService.updateSensor(sensor);
+			  logger.debug("Response JSON "+ class2JSON(response));
+			  return new ResponseEntity<UpdateSensorResponse>(response,HttpStatus.OK);
+			
+		  	} catch (IOException e) {
+		  		logger.error("Cannot map request object "+ e.getMessage());
+		  		return new ResponseEntity<UpdateSensorResponse>(HttpStatus.BAD_REQUEST);
+		  	}
 	}
 	
 	
 	//------- Reactor
-	
+	//------- Add new Reactor
 	@RequestMapping(value="/addReactor",method ={RequestMethod.PUT,RequestMethod.POST})
 	public ResponseEntity addReactor(@RequestBody String requestAddReactor, HttpServletRequest httpRequest){
 		
@@ -123,12 +154,22 @@ public class TransactionServiceController {
 		  	}
 	}
 	
+	// ---- Remove Reactor
 	@RequestMapping(value="/deleteReactor",method ={RequestMethod.DELETE})
-	public ResponseEntity deleteReactor(){
+	public ResponseEntity deleteReactor(@RequestParam(value="reactorId",required=true) String reactorId){
 		
-		return null;
+		logger.debug("Received http request for deleteReactor, request data -- reactorId "+ reactorId);
+		
+		if(reactorManagementService.deleteReactorById(reactorId)==0){
+			
+			return new ResponseEntity<String>("Deleted Reactor successfully",HttpStatus.OK);
+		}else{
+			return new ResponseEntity<String>("Fail to delete Reactor", HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
+	// ---- List all registered Reactor
 	@RequestMapping(value="/listReactor",method ={RequestMethod.GET})
 	public ResponseEntity listReactor(){
 		
@@ -136,10 +177,32 @@ public class TransactionServiceController {
 		
 		List<Reactor> returnList = reactorManagementService.listAllReactor();
       
-		mqttService.publishMsg("off", "iot/platform/command/yellowLed");
+		//mqttService.publishMsg("off", "iot/platform/command/yellowLed");
 		
 		return new ResponseEntity<List<Reactor>>(returnList,HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping(value="/updateReactor",method ={RequestMethod.POST})
+	public ResponseEntity updateReactor(@RequestBody String requestUpdateReactor){
+		
+		logger.debug("Received http request for updateReactor, request data --"+requestUpdateReactor);
+		Reactor reactor;
+		  
+		  try {  
+			  reactor = new ObjectMapper().readValue(requestUpdateReactor, Reactor.class);
+			  logger.info("Http Request received: (reactor) --- request detail "+ reactor.toString());
+	
+			  UpdateReactorResponse response = reactorManagementService.updateReactor(reactor);
+			  logger.debug("Response JSON "+ class2JSON(response));
+			  return new ResponseEntity<UpdateReactorResponse>(response,HttpStatus.OK);
+			
+		  	} catch (IOException e) {
+		  		logger.error("Cannot map request object "+ e.getMessage());
+		  		return new ResponseEntity<UpdateReactorResponse>(HttpStatus.BAD_REQUEST);
+		  	}
+	}
+	
 	
 	/*
 	@RequestMapping(value="/sendMqttCommand",method ={RequestMethod.POST})
@@ -263,7 +326,7 @@ public class TransactionServiceController {
 		logger.debug("Received sensorData= "+sensorData);
 		
 		
-		UpdateSensorDataResponse response =logicImplementationService.procesSensorDataUpdate(sensorId,sensorData);
+		UpdateSensorDataResponse response =logicImplementationService.processSensorDataUpdate(sensorId,sensorData);
 		
 		
 		return new ResponseEntity<UpdateSensorDataResponse>(response,HttpStatus.OK);

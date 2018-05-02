@@ -1,16 +1,15 @@
 package me.hukun.unimelb.project.IoTService.domain;
 
-import java.util.Date;
 
 public class Device {
 	
 	String name;
 	String description;
 	String location;
-	String ip;
-	String status;
-	Date validFrom;
-	Date validEnd;
+	
+	//mqtt or http
+	String communicateChannel;
+	
 	
 	public String getName() {
 		return name;
@@ -30,32 +29,10 @@ public class Device {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getIp() {
-		return ip;
+	public String getCommunicateChannel() {
+		return communicateChannel;
 	}
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setCommunicateChannel(String communicateChannel) {
+		this.communicateChannel = communicateChannel;
 	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public Date getValidFrom() {
-		return validFrom;
-	}
-	public void setValidFrom(Date validFrom) {
-		this.validFrom = validFrom;
-	}
-	public Date getValidEnd() {
-		return validEnd;
-	}
-	public void setValidEnd(Date validEnd) {
-		this.validEnd = validEnd;
-	}
-
-	
-	
-	
 }

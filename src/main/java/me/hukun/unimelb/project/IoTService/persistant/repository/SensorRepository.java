@@ -14,7 +14,8 @@ public interface SensorRepository extends MongoRepository<Sensor, String>{
 	@Query("{id:'?0'}")
 	public List<Sensor> findSensorById(String id);
 
-	
+	@Query("{topic:'?0'}")
+	public List<Sensor> findSensorByTopic(String topic);
 	//List<Device> devices = userRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
 
 	

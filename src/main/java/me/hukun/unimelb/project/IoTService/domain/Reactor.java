@@ -1,5 +1,8 @@
 package me.hukun.unimelb.project.IoTService.domain;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,9 +10,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Reactor extends Device{
 	@Id
 	String id;
+	String pubMqttTopic;
+	String pubHttpUrl;
+	String pubHttpUrlMethod;
 
-	String command;
-	String commandType;
+	List<String> commandList = new LinkedList<String>();
 	
 	public String getId() {
 		return id;
@@ -17,19 +22,33 @@ public class Reactor extends Device{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getCommand() {
-		return command;
+	
+	public List<String> getCommandList() {
+		return commandList;
 	}
-	public void setCommand(String command) {
-		this.command = command;
+	public void setCommandList(List<String> commandList) {
+		this.commandList = commandList;
 	}
-	public String getCommandType() {
-		return commandType;
+	public String getPubMqttTopic() {
+		return pubMqttTopic;
 	}
-	public void setCommandType(String commandType) {
-		this.commandType = commandType;
+	public void setPubMqttTopic(String pubMqttTopic) {
+		this.pubMqttTopic = pubMqttTopic;
+	}
+	public String getPubHttpUrl() {
+		return pubHttpUrl;
+	}
+	public void setPubHttpUrl(String pubHttpUrl) {
+		this.pubHttpUrl = pubHttpUrl;
+	}
+	public String getPubHttpUrlMethod() {
+		return pubHttpUrlMethod;
+	}
+	public void setPubHttpUrlMethod(String pubHttpUrlMethod) {
+		this.pubHttpUrlMethod = pubHttpUrlMethod;
 	}
 
+	
 
 }
 

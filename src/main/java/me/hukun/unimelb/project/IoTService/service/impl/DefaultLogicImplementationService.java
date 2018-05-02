@@ -13,6 +13,7 @@ import me.hukun.unimelb.project.IoTService.persistant.repository.LogicRepository
 import me.hukun.unimelb.project.IoTService.persistant.repository.ReactorRepository;
 import me.hukun.unimelb.project.IoTService.persistant.repository.SensorRepository;
 import me.hukun.unimelb.project.IoTService.service.LogicImplementationService;
+import me.hukun.unimelb.project.IoTService.service.MqttService;
 import me.hukun.unimelb.project.IoTService.service.response.UpdateSensorDataResponse;
 
 
@@ -24,10 +25,12 @@ public class DefaultLogicImplementationService implements LogicImplementationSer
 	ReactorRepository reactorRepository;
 	@Autowired
 	SensorRepository sensorRepository;
+	@Autowired
+	MqttService mqttService; 
 	
 	private static final Logger logger = Logger.getLogger(DefaultLogicImplementationService.class);
 	
-	public UpdateSensorDataResponse procesSensorDataUpdate(String sensorId, String sensorData) {
+	public void procesSensorDataUpdate(Sensor affectSensor, String sensorData) {
 		
 		UpdateSensorDataResponse response = new UpdateSensorDataResponse();
 		
@@ -35,17 +38,17 @@ public class DefaultLogicImplementationService implements LogicImplementationSer
 		
 		//Step 1 search for all sensor related logic
 	
-		Optional<Sensor> searchSensorResult = sensorRepository.findById(sensorId);
+		//Optional<Sensor> searchSensorResult = sensorRepository.findById(sensorId);
 		
 		
 		
-		if (searchSensorResult.isPresent()){
+		//if (affectSensor!=null){
 			
-			logger.debug("Found associated logic by sensorId --- "+sensorId);
+			logger.debug("Found associated logic by sensorId --- "+affectSensor.getId());
 			
-			updateSensorCurrentData(searchSensorResult.get(), sensorData);
+			updateSensorCurrentData(affectSensor, sensorData);
 			
-			String[] logicIds = searchSensorResult.get().getAssociatedLogic();
+			String[] logicIds = affectSensor.getAssociatedLogic();
 			
 			logger.debug("Total number of associated logic is "+logicIds.length);
 			
@@ -56,8 +59,8 @@ public class DefaultLogicImplementationService implements LogicImplementationSer
 				Logic currentLogic = logicRepository.findById(logicIds[index]).get();
 									
 				
-				if(excuteCommandOrNot(currentLogic,checkSensorThreshold(currentLogic))){
-					this.sendCommand(currentLogic);
+				if(excuteCommand(currentLogic,checkSensorThreshold(currentLogic))){
+					sendCommand(currentLogic);
 				}
 				
 			}
@@ -65,17 +68,25 @@ public class DefaultLogicImplementationService implements LogicImplementationSer
 			response.setCode("0");
 			response.setMessage("success");
 			
-		}else{
+		//}else{
 			
-			logger.debug("No assoicated logic found by by sensorId ---" + sensorId);
+		//	logger.debug("No assoicated logic found by by sensorId ---" + sensorId);
 			
-			response.setCode("-1");
-			response.setMessage("No assoicated logic found by by sensorId ---" + sensorId);
-		}
+		//	response.setCode("-1");
+		//	response.setMessage("No assoicated logic found by by sensorId ---" + sensorId);
+		//}
 		
 		
-		return response;
+		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -139,7 +150,7 @@ public class DefaultLogicImplementationService implements LogicImplementationSer
 	}
 	
 	// only two possible cases , all AND or all or
-	private boolean excuteCommandOrNot(Logic logic,Boolean[] sensorThresholdCheckResults){
+	private boolean excuteCommand(Logic logic,Boolean[] sensorThresholdCheckResults){
 		
 		boolean excuteCommand =true;	
 		
@@ -182,18 +193,26 @@ public class DefaultLogicImplementationService implements LogicImplementationSer
 									
 			Reactor currentReactor = reactorRepository.findById(reactorIds[reactorIndex]).get();
 			
-			if(currentReactor.getCommandType().equals("notification")){
-			
-				//send notification
+				// send device command
+			//currentReactor.setCommand(commands[reactorIndex]);
+
+			if(currentReactor.getCommunicateChannel().equalsIgnoreCase("mqtt")){
+				
+				mqttService.publishMsg(commands[reactorIndex], currentReactor.getPubMqttTopic());
+				
+			}else if(currentReactor.getCommunicateChannel().equalsIgnoreCase("http")){
+				
+				
 				
 			}else{
-				// send device command
-				currentReactor.setCommand(commands[reactorIndex]);
 				
-				reactorRepository.save(currentReactor);
-				
-				logger.debug("Set command for reactor("+currentReactor.getId()+") --- "+commands[reactorIndex] );
+				logger.error("Communicate Channel for reactor ("+currentReactor.getName()+"---"+currentReactor.getId()+") is not defined, cannot send command");
 			}
+			
+			reactorRepository.save(currentReactor);
+				
+			logger.debug("Set command for reactor("+currentReactor.getId()+") --- "+commands[reactorIndex] );
+			
 		}
 		
 	}
@@ -203,6 +222,65 @@ public class DefaultLogicImplementationService implements LogicImplementationSer
 			sensor.setCurrentData(currentData);
 			sensorRepository.save(sensor);
 		
+	}
+
+
+
+
+
+
+
+
+
+
+
+	public UpdateSensorDataResponse processSensorDataUpdate(String sensorId, String sensorData) {
+		
+		UpdateSensorDataResponse response = new UpdateSensorDataResponse();
+		
+		logger.debug("Process --- processSensorDataUpdate...");
+		
+		//Step 1 search for all sensor related logic
+	
+		Optional<Sensor> searchSensorResult = sensorRepository.findById(sensorId);
+		
+		
+		
+		if (searchSensorResult.isPresent()){
+			
+			logger.debug("Found associated logic by sensorId --- "+searchSensorResult.get().getId());
+			
+			updateSensorCurrentData(searchSensorResult.get(), sensorData);
+			
+			String[] logicIds = searchSensorResult.get().getAssociatedLogic();
+			
+			logger.debug("Total number of associated logic is "+logicIds.length);
+			
+			for(int index =0 ; index < logicIds.length ; index ++){
+				
+				logger.debug("Start to process logic "+ logicIds[index]);
+				
+				Logic currentLogic = logicRepository.findById(logicIds[index]).get();
+									
+				
+				if(excuteCommand(currentLogic,checkSensorThreshold(currentLogic))){
+					sendCommand(currentLogic);
+				}
+				
+			}
+			
+			response.setCode("0");
+			response.setMessage("success");
+			
+		}else{
+			
+			logger.debug("No assoicated logic found by by sensorId ---" + sensorId);
+			
+			response.setCode("-1");
+			response.setMessage("No assoicated logic found by by sensorId ---" + sensorId);
+		}
+		
+		return response;
 	}
 
 }
