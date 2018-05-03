@@ -9,14 +9,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class GUIController {
 	private static final String VIEW_INDEX = "index";
 	private static final String ADD_LOGIC = "addLogic";
+	private static final String ADD_SENSOR = "addSensor";
+	private static final String ADD_REACTOR = "addReactor";
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String welcome(ModelMap model) {
 		return VIEW_INDEX;
 	}
 	
-	@RequestMapping(value ="/addLogic", method = RequestMethod.GET)
+	@RequestMapping(value ="/test/addLogic", method = RequestMethod.GET)
 	public String addLogic(ModelMap model) {
 		return ADD_LOGIC;
+	}
+	
+	@RequestMapping(value ="/test/addSensor", method = RequestMethod.GET)
+	public String addSensor(ModelMap model) {
+		return ADD_SENSOR;
+	}
+	
+	
+	@RequestMapping(value ="/test/addReactor", method = RequestMethod.GET)
+	public String addReactor(ModelMap model) {
+		return ADD_REACTOR;
 	}
 }

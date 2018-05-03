@@ -48,7 +48,34 @@ function loadReactorId(url) {
 	return reacrotIdList;
 }
 
+function loadReactorMap(url){
+	
+	var reactorMap = new Map();
+	
+	
+	$.ajax({
+    	crossDomain: true,
+    	dataType: 'json',
+    	url: url,
+    	async:false,
+    	success: function(reactorListData){
+    		
+    		//alert(JSON.stringify(reactorListData));
+        
+            for (var i in reactorListData)
+            {
+            	
+            	reactorMap.set(reactorListData[i].id,reactorListData[i]);
 
+            }
+        
+    	  }
+		}
+	);
+	
+	return reactorMap;
+	
+}
 
 function loadOption(dataArray,htmlItem){
 	

@@ -12,7 +12,7 @@ public class Reactor extends Device{
 	String id;
 	String pubMqttTopic;
 	String pubHttpUrl;
-	String pubHttpUrlMethod;
+	String pubHttpMethod;
 
 	List<String> commandList = new LinkedList<String>();
 	
@@ -41,12 +41,13 @@ public class Reactor extends Device{
 	public void setPubHttpUrl(String pubHttpUrl) {
 		this.pubHttpUrl = pubHttpUrl;
 	}
-	public String getPubHttpUrlMethod() {
-		return pubHttpUrlMethod;
+	public String getPubHttpMethod() {
+		return pubHttpMethod;
 	}
-	public void setPubHttpUrlMethod(String pubHttpUrlMethod) {
-		this.pubHttpUrlMethod = pubHttpUrlMethod;
+	public void setPubHttpMethod(String pubHttpMethod) {
+		this.pubHttpMethod = pubHttpMethod;
 	}
+
 
 	
 

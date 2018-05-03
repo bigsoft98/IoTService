@@ -1,9 +1,9 @@
 <html>
         <head>
                 <title>IoTService ---Add Logic</title>
-                <link rel="stylesheet" type="text/css" href="./styles/style.css"/>
-                <script type="text/javascript" src="./scripts/jquery.min.js"></script>
-                <script type="text/javascript" src="./scripts/iotService.js"></script>
+                <link rel="stylesheet" type="text/css" href="../styles/style.css"/>
+                <script type="text/javascript" src="../scripts/jquery.min.js"></script>
+                <script type="text/javascript" src="../scripts/iotService.js"></script>
                 
                 <script type="text/javascript">
                     $(document).ready(function(){
@@ -11,9 +11,14 @@
                     	var sensorIdList =loadSensorId('/IoTService/listSensor');
                     	var reactorIdList = loadReactorId('/IoTService/listReactor');
              			
+                    	Map reactorIdMap = loadReactorMap('/IoTService/listReactor');
+                    	
+                    	
                        	
                         loadOption(sensorIdList,'#selectedSensorIds');
-                       	loadOption(reactorIdList,'#selectedReactorIds');
+                       	//loadOption(reactorIdList,'#selectedReactorIds');
+                       	
+                       	loadOption(Object.keys(reactorIdMap),'#selectedReactorIds');
                        	
                        	
                         var sensorIds=[];

@@ -1,4 +1,5 @@
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/persistant/repository/ReactorRepository.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/response/UpdateReactorResponse.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/ReportingService.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/persistant/repository/SensorRepository.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/domain/Client.java
@@ -28,6 +29,7 @@
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/impl/DefaultSensorManagementService.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/impl/DefaultReactorManagementService.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/domain/Device.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/response/UpdateSensorResponse.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/impl/DefaultLogicManagementService.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/domain/SensorData.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/response/AddLogicResponse.java
