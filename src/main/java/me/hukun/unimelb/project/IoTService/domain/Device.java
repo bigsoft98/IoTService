@@ -7,9 +7,6 @@ public class Device {
 	String description;
 	String location;
 	
-	//mqtt or http
-	String communicateChannel;
-	
 	
 	public String getName() {
 		return name;
@@ -29,10 +26,5 @@ public class Device {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getCommunicateChannel() {
-		return communicateChannel;
-	}
-	public void setCommunicateChannel(String communicateChannel) {
-		this.communicateChannel = communicateChannel;
-	}
+
 }

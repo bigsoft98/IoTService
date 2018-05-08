@@ -38,7 +38,6 @@ import me.hukun.unimelb.project.IoTService.service.response.AddNewReactorRespons
 import me.hukun.unimelb.project.IoTService.service.response.AddNewSensorResponse;
 import me.hukun.unimelb.project.IoTService.service.response.GetReactorCommandResponse;
 import me.hukun.unimelb.project.IoTService.service.response.UpdateReactorResponse;
-import me.hukun.unimelb.project.IoTService.service.response.UpdateSensorDataResponse;
 import me.hukun.unimelb.project.IoTService.service.response.UpdateSensorResponse;
 
 @RestController
@@ -177,7 +176,7 @@ public class TransactionServiceController {
 		
 		List<Reactor> returnList = reactorManagementService.listAllReactor();
       
-		//mqttService.publishMsg("off", "iot/platform/command/yellowLed");
+		mqttService.publishMsg("on", "iot/platform/command/yellowLed");
 		
 		return new ResponseEntity<List<Reactor>>(returnList,HttpStatus.OK);
 	}
@@ -314,25 +313,7 @@ public class TransactionServiceController {
 		return new ResponseEntity<List<Logic>>(returnList,HttpStatus.OK);
 	}
 	
-	
-	@RequestMapping(value="/updateSensorData",method ={RequestMethod.POST})
-	public ResponseEntity updateSensorData(@RequestParam(value="sensorId",required=true) String sensorId,
-			@RequestParam(value="sensorData",required=true) String sensorData,HttpServletRequest httpRequest){
-		
-		
-		logger.debug("Received http request for updateSensorData");
-		
-		logger.debug("Received sensorId= "+sensorId);
-		logger.debug("Received sensorData= "+sensorData);
-		
-		
-		UpdateSensorDataResponse response =logicImplementationService.processSensorDataUpdate(sensorId,sensorData);
-		
-		
-		return new ResponseEntity<UpdateSensorDataResponse>(response,HttpStatus.OK);
-	}
-	
-	
+
 	
 	 private String class2JSON(Object obj){
 		 

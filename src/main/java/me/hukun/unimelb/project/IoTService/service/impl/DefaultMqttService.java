@@ -66,6 +66,7 @@ public class DefaultMqttService implements MqttService{
 		
 		List<Sensor> sensorList = sensorManagementService.findSensorByTopic(topic);
 		
+		logger.debug("Found "+sensorList.size()+" sensor from the topic "+topic);
 		for(int index = 0; index< sensorList.size(); index++){
 			
 			Sensor currentSensor = sensorList.get(index);

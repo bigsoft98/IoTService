@@ -10,17 +10,6 @@
                			
                       var reqJson;
                       
-                      $("#mqttInfo").hide();
-                      $('#selectedCommunicationChannle').val('');
-                      
-                      $("#selectedCommunicationChannle").change(function() {
-                    	  if($("#selectedCommunicationChannle").val()=="mqtt" ){
-                    		  $("#mqttInfo").show();
-                    	  }else{
-                    		  $("#mqttInfo").hide();
-                    		  $("#subTopic").val('');
-                    	  }
-                    	});
                     	
                       $("#displayReqJSON").click(function(){
                     	 
@@ -28,9 +17,10 @@
                     	  var description = $("#description").val();
                     	  var comChannel =$("#selectedCommunicationChannle").val();
                     	  var subTopic = $("#subTopic").val();
+                    	  var location =$("#location").val();
                     	  
                     	  var reqJSON = JSON.stringify(
-                    			{"name":name,"description":description,"communicateChannel":comChannel,"subMqttTopic":subTopic},undefined, 2	  
+                    			{"name":name,"description":description,"location":location,"subMqttTopic":subTopic},undefined, 2	  
                     	  );
                     	  $("#request").val(reqJSON);
                     	  
@@ -44,9 +34,10 @@
                     	  var description = $("#description").val();
                     	  var comChannel =$("#selectedCommunicationChannle").val();
                     	  var subTopic = $("#subTopic").val();
-		            	  
+                    	  var location =$("#location").val();
+                    	  
 		  				  var submitData =  JSON.stringify(
-		  						{"name":name,"description":description,"communicateChannel":comChannel,"subMqttTopic":subTopic}
+		  						{"name":name,"description":description,"location":location,"subMqttTopic":subTopic}
 		  				  );
 		            	  
 		            	  submitLogic('/IoTService/addSensor',submitData,"#response");
@@ -77,22 +68,17 @@
                                <input type="text" id="description" placeholder="Description" />
                         </label>
 
-                         <label>
-                          	<span>Communication Channel :</span>
-                            <select id="selectedCommunicationChannle">
-                            	<option value="mqtt">MQTT</option>
-	       						<option value="http">HTTP</option>
-	       				   </select>
-                        	
-                          </label> 
+                        <label>
+                              <span>Location :</span>        
+                               <input type="text" id="location" placeholder="Location" />
+                        </label>
 
-						<div id='mqttInfo'>
+						
                     	 <label>
                             <span>MQTT Subscribe Topic :</span> 
                             <input type="text" id="subTopic" placeholder="MQTT Subscribe Topic" />
                          </label>                       
                       
-                      </div>
                       
                          <label>   
                           	<input type="button" id="displayReqJSON" value="Display Request JSON">

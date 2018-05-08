@@ -1,6 +1,9 @@
 package me.hukun.unimelb.project.IoTService.domain;
 
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,18 +11,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Sensor extends Device{
 	@Id
 	String id;
-	String[] associatedLogic;
-	String currentData;
-	
+	List<String> associatedLogic=new LinkedList<String>();;
+	String currentData ="0";
 	String subMqttTopic;
-	String subHttpUrl;
-	String subHttpMethod;
 
 
-	public String[] getAssociatedLogic() {
+	public List<String> getAssociatedLogic() {
 		return associatedLogic;
 	}
-	public void setAssociatedLogic(String[] associatedLogic) {
+	public void setAssociatedLogic(List<String> associatedLogic) {
 		this.associatedLogic = associatedLogic;
 	}
 	public String getCurrentData() {
@@ -40,19 +40,6 @@ public class Sensor extends Device{
 	public void setSubMqttTopic(String subMqttTopic) {
 		this.subMqttTopic = subMqttTopic;
 	}
-	public String getSubHttpUrl() {
-		return subHttpUrl;
-	}
-	public void setSubHttpUrl(String subHttpUrl) {
-		this.subHttpUrl = subHttpUrl;
-	}
-	public String getSubHttpMethod() {
-		return subHttpMethod;
-	}
-	public void setSubHttpMethod(String subHttpMethod) {
-		this.subHttpMethod = subHttpMethod;
-	}
-	
 
 
 }

@@ -1,10 +1,4 @@
-me/hukun/unimelb/project/IoTService/domain/SensorData.class
 me/hukun/unimelb/project/IoTService/controller/GUIController.class
-me/hukun/unimelb/project/IoTService/domain/User.class
-me/hukun/unimelb/project/IoTService/domain/Client.class
-me/hukun/unimelb/project/IoTService/service/ClientManagementService.class
-me/hukun/unimelb/project/IoTService/service/UserManagmentService.class
 me/hukun/unimelb/project/IoTService/service/response/GenericTxResponse.class
 me/hukun/unimelb/project/IoTService/domain/Device.class
 me/hukun/unimelb/project/IoTService/controller/TransactionServiceController.class
-me/hukun/unimelb/project/IoTService/service/ReportingService.class

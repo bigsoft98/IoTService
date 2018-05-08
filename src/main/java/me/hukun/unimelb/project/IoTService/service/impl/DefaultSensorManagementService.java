@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import me.hukun.unimelb.project.IoTService.domain.Sensor;
 import me.hukun.unimelb.project.IoTService.persistant.repository.SensorRepository;
+import me.hukun.unimelb.project.IoTService.service.MqttService;
 import me.hukun.unimelb.project.IoTService.service.SensorManagementService;
 import me.hukun.unimelb.project.IoTService.service.response.AddNewSensorResponse;
 import me.hukun.unimelb.project.IoTService.service.response.UpdateSensorResponse;
@@ -14,6 +15,8 @@ import me.hukun.unimelb.project.IoTService.service.response.UpdateSensorResponse
 public class DefaultSensorManagementService implements SensorManagementService{
 	@Autowired
 	SensorRepository sensorRepository;
+	@Autowired
+	MqttService mqttService;
 	//MongoTemplate mongoTemplate;
 	private static final Logger logger = Logger.getLogger(DefaultSensorManagementService.class);
 	public AddNewSensorResponse addNewSensor(Sensor newSensor) {
@@ -21,7 +24,8 @@ public class DefaultSensorManagementService implements SensorManagementService{
 		AddNewSensorResponse response = new AddNewSensorResponse();
 
 		Sensor addedSensor = sensorRepository.save(newSensor);
-	
+
+		mqttService.addSubscribeTopic(newSensor.getSubMqttTopic());
 		if(addedSensor== null){
 			
 			response.setAddedSensor(null);
@@ -64,6 +68,7 @@ public class DefaultSensorManagementService implements SensorManagementService{
 	public int deleteSensor(Sensor sensor) {
 		
 		sensorRepository.delete(sensor);
+		mqttService.removeSubscribeTopic(sensor.getSubMqttTopic());
 		return 0;
 	}
 
@@ -76,7 +81,9 @@ public class DefaultSensorManagementService implements SensorManagementService{
 	public int deleteSensorById(String sensorId) {
 		
 		try{
-			sensorRepository.deleteById(sensorId);		
+			Sensor sensorTobeDeleted = sensorRepository.findById(sensorId).get();
+			sensorRepository.delete(sensorTobeDeleted);
+			mqttService.removeSubscribeTopic(sensorTobeDeleted.getSubMqttTopic());
 			return 0;
 			
 		}catch(Exception e){
