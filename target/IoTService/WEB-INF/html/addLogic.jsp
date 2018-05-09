@@ -11,14 +11,16 @@
                     	var sensorIdList =loadSensorId('/IoTService/listSensor');
                     	var reactorIdList = loadReactorId('/IoTService/listReactor');
              			
-                    	Map reactorIdMap = loadReactorMap('/IoTService/listReactor');
+                    	var reactorIdMap = loadReactorMap('/IoTService/listReactor');
                     	
                     	
                        	
                         loadOption(sensorIdList,'#selectedSensorIds');
                        	//loadOption(reactorIdList,'#selectedReactorIds');
+                       	loadOptionWithDesc(reactorIdMap,'#selectedReactorIds');
                        	
-                       	loadOption(Object.keys(reactorIdMap),'#selectedReactorIds');
+                       	
+                       	//loadOption(Object.keys(reactorIdMap),'#selectedReactorIds');
                        	
                        	
                         var sensorIds=[];

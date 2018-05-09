@@ -88,7 +88,16 @@ function loadOption(dataArray,htmlItem){
    	};
 }
 
-
+function loadOptionWithDesc(map,htmlItem){
+	
+	$.each(map, function(k, v) {
+   		$(htmlItem).append($("<option/>", {
+   	        value: k,
+   	        text: v.description
+   	    }));
+	  });
+	
+}
 
 
 function submitLogic(url,logicData,responseElement){

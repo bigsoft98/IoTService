@@ -11,6 +11,7 @@ public class GUIController {
 	private static final String ADD_LOGIC = "addLogic";
 	private static final String ADD_SENSOR = "addSensor";
 	private static final String ADD_REACTOR = "addReactor";
+	private static final String TEMP_DATA ="tempM";
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String welcome(ModelMap model) {
@@ -31,5 +32,10 @@ public class GUIController {
 	@RequestMapping(value ="/test/addReactor", method = RequestMethod.GET)
 	public String addReactor(ModelMap model) {
 		return ADD_REACTOR;
+	}
+	
+	@RequestMapping(value ="/test/tempData", method = RequestMethod.GET)
+	public String tempTest(ModelMap model) {
+		return TEMP_DATA;
 	}
 }

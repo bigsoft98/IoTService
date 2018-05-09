@@ -37,6 +37,7 @@ import me.hukun.unimelb.project.IoTService.service.response.AddLogicResponse;
 import me.hukun.unimelb.project.IoTService.service.response.AddNewReactorResponse;
 import me.hukun.unimelb.project.IoTService.service.response.AddNewSensorResponse;
 import me.hukun.unimelb.project.IoTService.service.response.GetReactorCommandResponse;
+import me.hukun.unimelb.project.IoTService.service.response.GetSensorCurrentDataResponse;
 import me.hukun.unimelb.project.IoTService.service.response.UpdateReactorResponse;
 import me.hukun.unimelb.project.IoTService.service.response.UpdateSensorResponse;
 
@@ -108,6 +109,16 @@ public class TransactionServiceController {
 		
 	}
 	
+	@RequestMapping(value="/getSensorCurrentData",method =RequestMethod.GET)
+	public ResponseEntity getSensorCurrentData(@RequestParam(value="sensorId",required=true) String sensorId){
+		
+		logger.debug("Received http request for getSensorCurrentData");
+		
+		
+		return new ResponseEntity<GetSensorCurrentDataResponse>(sensorManagementService.getSensorCurrentDataById(sensorId),HttpStatus.OK);
+		
+
+	}
 	
 	
 	@RequestMapping(value="/updateSensor",method ={RequestMethod.POST})

@@ -9,6 +9,7 @@ import me.hukun.unimelb.project.IoTService.persistant.repository.SensorRepositor
 import me.hukun.unimelb.project.IoTService.service.MqttService;
 import me.hukun.unimelb.project.IoTService.service.SensorManagementService;
 import me.hukun.unimelb.project.IoTService.service.response.AddNewSensorResponse;
+import me.hukun.unimelb.project.IoTService.service.response.GetSensorCurrentDataResponse;
 import me.hukun.unimelb.project.IoTService.service.response.UpdateSensorResponse;
 
 
@@ -94,6 +95,30 @@ public class DefaultSensorManagementService implements SensorManagementService{
 
 	public List<Sensor> findSensorByTopic(String topic) {
 		return sensorRepository.findSensorByTopic(topic);
+	}
+
+	public GetSensorCurrentDataResponse getSensorCurrentDataById(String sensorId) {
+		
+		GetSensorCurrentDataResponse response = new GetSensorCurrentDataResponse();
+		
+		Sensor sensor = sensorRepository.findById(sensorId).get();
+		
+		if(sensor!=null){
+			response.setCode("0");
+			response.setMessage("Success");
+			
+			response.setSensorCurrentData(sensor.getCurrentData());
+			response.setSensorDescription(sensor.getDescription());
+			response.setSensorId(sensor.getId());
+			
+		}else{
+			
+			response.setCode("-1");
+			response.setMessage("Cannot file sensor by sensor ID: "+ sensorId);
+			
+		}
+		
+		return response;
 	}
 
 

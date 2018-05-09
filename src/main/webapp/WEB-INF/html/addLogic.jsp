@@ -6,19 +6,66 @@
                 <script type="text/javascript" src="../scripts/iotService.js"></script>
                 
                 <script type="text/javascript">
+                
+                
+                function loadReactorMap1(url){
+                	
+                	var reactorMap = new Map();
+                	
+                	
+                	$.ajax({
+                    	crossDomain: true,
+                    	dataType: 'json',
+                    	url: url,
+                    	async:false,
+                    	success: function(reactorListData){
+                    		
+                    		//alert(JSON.stringify(reactorListData));
+                    		var temp = JSON.stringify(reactorListData[0]);
+                        	alert(temp.id);
+                    		//var responseList = JSON.parse(reactorListData);
+                    		//alert(responseList);
+                    		for(var index=0; index< reactorListData.length; index++){
+                    			
+                    			reactorMap.set(reactorListData[index].id,reactorListData[index]);
+                    		}
+                    		
+                    	  }
+                		}
+                	);
+                	
+                	return reactorMap;
+                	
+                }
+                
+                
+	                function loadOptionWithDesc(map,htmlItem){
+	                	alert(map);
+	                	$.each(map, function(k, v) {
+	                   		$(htmlItem).append($("<option/>", {
+	                   	        value: k,
+	                   	        text: v.description
+	                   	    }));
+	                	  });
+	                	
+	                }
+	
+                
                     $(document).ready(function(){
                			
                     	var sensorIdList =loadSensorId('/IoTService/listSensor');
                     	var reactorIdList = loadReactorId('/IoTService/listReactor');
              			
-                    	Map reactorIdMap = loadReactorMap('/IoTService/listReactor');
+                    	var reactorIdMap = loadReactorMap1('/IoTService/listReactor');
                     	
                     	
                        	
                         loadOption(sensorIdList,'#selectedSensorIds');
                        	//loadOption(reactorIdList,'#selectedReactorIds');
+                       	loadOptionWithDesc(reactorIdMap,'#selectedReactorIds');
                        	
-                       	loadOption(Object.keys(reactorIdMap),'#selectedReactorIds');
+                       	
+                       	//loadOption(Object.keys(reactorIdMap),'#selectedReactorIds');
                        	
                        	
                         var sensorIds=[];

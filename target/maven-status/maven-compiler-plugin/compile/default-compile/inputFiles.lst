@@ -23,4 +23,5 @@
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/domain/Device.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/response/UpdateSensorResponse.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/impl/DefaultLogicManagementService.java
+/Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/response/GetSensorCurrentDataResponse.java
 /Users/kevinhu/java_projects/IoTService/src/main/java/me/hukun/unimelb/project/IoTService/service/response/AddLogicResponse.java
