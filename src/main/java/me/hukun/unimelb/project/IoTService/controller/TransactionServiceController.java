@@ -187,7 +187,7 @@ public class TransactionServiceController {
 		
 		List<Reactor> returnList = reactorManagementService.listAllReactor();
       
-		mqttService.publishMsg("on", "iot/platform/command/yellowLed");
+		//mqttService.publishMsg("on", "iot/platform/command/yellowLed");
 		
 		return new ResponseEntity<List<Reactor>>(returnList,HttpStatus.OK);
 	}
@@ -214,19 +214,26 @@ public class TransactionServiceController {
 	}
 	
 	
-	/*
-	@RequestMapping(value="/sendMqttCommand",method ={RequestMethod.POST})
-	public ResponseEntity sendMqttCommand(){
+	
+	@RequestMapping(value="/sendReactorCommand",method ={RequestMethod.GET})
+	public ResponseEntity sendReacotorCommand(@RequestParam(value="reactorId", required=true) String reactorId,
+			@RequestParam(value="command", required=true) String command){
 		
-		logger.debug("Received http request for sendMqttCommand");
-		
-		List<Reactor> returnList = reactorManagementService.listAllReactor();
+		logger.debug("Received http request for sendReactorCommand");
+		Reactor reactor =reactorManagementService.getReactorById(reactorId);
       
-		mqttService.publishMsg("new Test from hukun", "new");
-		//mqttService.addSubscribeTopic("addedTopic");
-		return new ResponseEntity<List<Reactor>>(returnList,HttpStatus.OK);
+		if(reactor!=null){
+			
+			mqttService.publishMsg(command, reactor.getPubMqttTopic());
+			return new ResponseEntity<String>("Success",HttpStatus.OK);
+			
+		}else{
+			
+			return new ResponseEntity<String>("No Reactor found by "+reactorId,HttpStatus.BAD_REQUEST);
+		}
+
 	}
-	*/
+	
 	
 	
 	
@@ -250,19 +257,7 @@ public class TransactionServiceController {
 	
 	}
 	
-	@RequestMapping(value="/sendReactorCommand",method ={RequestMethod.POST,RequestMethod.PUT})
-	public ResponseEntity sendReactorCommand(@RequestParam(value="reactorId",required=true) String reactorId,
-			@RequestParam(value="command",required=true) String command, String requestSendReactorCommand, HttpServletRequest httpRequest){
-		
-		logger.debug("Received http request for sendReactorCommand");
-		
-		if(reactorManagementService.setReactorCommand(reactorId, command)==0){
-		
-			return new ResponseEntity(HttpStatus.OK);
-		}else{
-			return new ResponseEntity(HttpStatus.METHOD_FAILURE);
-		}
-	}
+
 	
 	//--------Logic
 	@RequestMapping(value="/addLogic",method ={RequestMethod.POST,RequestMethod.PUT})

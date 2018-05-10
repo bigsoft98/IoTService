@@ -133,4 +133,12 @@ public class DefaultReactorManagementService implements ReactorManagementService
 		return response;
 	}
 
+
+
+	public Reactor getReactorById(String reactorId) {
+		
+		return reactorRepository.findById(reactorId).get();
+		
+	}
+
 }

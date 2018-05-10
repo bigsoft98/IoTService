@@ -9,7 +9,47 @@
 -->
 <script type="text/javascript" src="http://static.fusioncharts.com/code/latest/themes/fusioncharts.theme.fint.js?cacheBust=56"></script>
 <script type="text/javascript">
+
+	function loadObjectMap(url){
+		
+		var objectMap = {};
+					 
+			$.ajax({
+				crossDomain: true,
+				dataType: 'json',
+				url: url,
+				async:false,
+				success: function(listData){
+					
+					for (var i in listData)
+					{
+						objectMap[listData[i].id]=listData[i];
+					}
+					
+				  }
+				}
+			);
+			return objectMap;
+	}
+
+	
+	function loadSensorOption(dataArray,htmlItem){
+		
+		for (var key in dataArray){
+			//alert(Object.values(dataArray[key]));
+			$(htmlItem).append($("<option/>", {
+				
+				value: dataArray[key].id,
+				text: key+"----"+dataArray[key].description
+			}));
+		};
+	}
+
     FusionCharts.ready(function(){
+    	
+    var sensorList =loadObjectMap('/IoTService/listSensor'); 	
+    loadSensorOption(sensorList,'#selectedSensorIds');	
+    	
     var fusioncharts = new FusionCharts({
     type: 'thermometer',
     renderAt: 'chart-container',
@@ -67,7 +107,7 @@
                 var value,
               	prevTemp = evt.sender.getData();
                 
-                var tempSensorId = $("#tempSensorId").val();
+                var tempSensorId = $("#selectedSensorIds").val();
                     $.ajax({
                             crossDomain: true,
                             dataType: 'json',
@@ -120,7 +160,7 @@
 <body>
 	<label>
         <span>SensorId :</span>
-        <input type="text" id="tempSensorId" placeholder="Sensor ID"></input>
+        <select id="selectedSensorIds"></select>
     </label>
     <div id="chart-container"/>
 </body>

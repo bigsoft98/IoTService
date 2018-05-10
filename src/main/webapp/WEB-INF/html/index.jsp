@@ -8,7 +8,9 @@
 		<H3><a href="./test/addSensor">Test Add Sensor</a></H3>
 		<H3><a href="./test/addReactor">Test Add Reactor</a></H3>
 		<H3><a href="./test/addLogic">Test Add Logic</a></H3>		
+		<H3>----------------------------------------------</H3>
 		
+		<H3><a href="./test/sendCommand">Test Send Command to Reactor</a></H3>
 	</body>
 
 </html>

@@ -16,5 +16,6 @@ public interface ReactorManagementService {
 	public UpdateReactorResponse updateReactor(Reactor reactor);
 	public GetReactorCommandResponse getReactorCommand(String reactorId);
 	public int setReactorCommand(String reactorId,String command);
+	public Reactor getReactorById(String reactorId);
 
 }
