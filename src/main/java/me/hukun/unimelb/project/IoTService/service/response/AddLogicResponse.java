@@ -13,7 +13,6 @@ public class AddLogicResponse extends GenericTxResponse{
 	public void setAddedLogic(Logic addedLogic) {
 		this.addedLogic = addedLogic;
 	}
-	
-	
+		
 	
 }
