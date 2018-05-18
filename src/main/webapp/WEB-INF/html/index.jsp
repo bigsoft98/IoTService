@@ -11,6 +11,7 @@
 		<H3>----------------------------------------------</H3>
 		
 		<H3><a href="./test/sendCommand">Test Send Command to Reactor</a></H3>
+		<h3><a href="./test/tempData">Temperature Sensor Data Display</a></h3>
 	</body>
 
 </html>

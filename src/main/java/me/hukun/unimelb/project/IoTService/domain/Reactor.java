@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+// Child class of Device, represent Reactor
 @Document(collection = "reactor")
 public class Reactor extends Device{
 	@Id

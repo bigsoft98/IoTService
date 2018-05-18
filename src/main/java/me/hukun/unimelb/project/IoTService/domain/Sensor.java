@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+// Child class of Device class represent Sensor IoT device
 @Document(collection = "sensor")
 public class Sensor extends Device{
 	@Id

@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import me.hukun.unimelb.project.IoTService.domain.Logic;
@@ -109,18 +111,19 @@ public class TransactionServiceController {
 		
 	}
 	
+	
+	//------- get selected Sensnor's current data
 	@RequestMapping(value="/getSensorCurrentData",method =RequestMethod.GET)
 	public ResponseEntity getSensorCurrentData(@RequestParam(value="sensorId",required=true) String sensorId){
 		
 		logger.debug("Received http request for getSensorCurrentData");
-		
 		
 		return new ResponseEntity<GetSensorCurrentDataResponse>(sensorManagementService.getSensorCurrentDataById(sensorId),HttpStatus.OK);
 		
 
 	}
 	
-	
+	//------- update registered sensor detail
 	@RequestMapping(value="/updateSensor",method ={RequestMethod.POST})
 	public ResponseEntity updateSensor(@RequestBody String requestUpdateSensor){
 		
@@ -187,12 +190,11 @@ public class TransactionServiceController {
 		
 		List<Reactor> returnList = reactorManagementService.listAllReactor();
       
-		//mqttService.publishMsg("on", "iot/platform/command/yellowLed");
-		
 		return new ResponseEntity<List<Reactor>>(returnList,HttpStatus.OK);
 	}
 	
 	
+	// --- Update registered Reactor detail
 	@RequestMapping(value="/updateReactor",method ={RequestMethod.POST})
 	public ResponseEntity updateReactor(@RequestBody String requestUpdateReactor){
 		
@@ -214,7 +216,7 @@ public class TransactionServiceController {
 	}
 	
 	
-	
+	// ---- Send command to selected Reactor
 	@RequestMapping(value="/sendReactorCommand",method ={RequestMethod.GET})
 	public ResponseEntity sendReacotorCommand(@RequestParam(value="reactorId", required=true) String reactorId,
 			@RequestParam(value="command", required=true) String command){
@@ -238,8 +240,7 @@ public class TransactionServiceController {
 	
 	
 	
-	//-------- Reactor Command
-	
+	//-------- Reactor Command (get command option of selected reactor)
 	@RequestMapping(value="/getReactorCommand",method ={RequestMethod.GET})
 	public ResponseEntity getReactorCommand(@RequestParam(value="reactorId", required=true) String reactorId){
 		
@@ -259,7 +260,7 @@ public class TransactionServiceController {
 	
 
 	
-	//--------Logic
+	//--------Create a logic relation
 	@RequestMapping(value="/addLogic",method ={RequestMethod.POST,RequestMethod.PUT})
 	public ResponseEntity addLogic(@RequestBody String requestAddLigic, HttpServletRequest httpRequest){
 		
@@ -281,6 +282,8 @@ public class TransactionServiceController {
 		  	}
 	}
 	
+	
+	// update stored logic detail
 	@RequestMapping(value="/updateLogic",method ={RequestMethod.POST,RequestMethod.PUT})
 	public ResponseEntity updateLogic(@RequestBody String requestUpdateLigic, HttpServletRequest httpRequest){
 		
@@ -302,13 +305,30 @@ public class TransactionServiceController {
 	}
 	
 	
-	
+	// --- delete selected stored logic
 	@RequestMapping(value="/deleteLogic",method ={RequestMethod.DELETE})
-	public ResponseEntity deleteLogic(){
+	public ResponseEntity deleteLogic(@RequestBody String requestDeleteLogic ){
 		
-		return null;
+		logger.debug("Received http request for deleteLogic");
+		
+		Logic logic;
+		
+		try {
+			logic = new ObjectMapper().readValue(requestDeleteLogic, Logic.class);
+			logger.info("Http request received: (logic)--- request detail "+ logic.toString());
+			logicManagementService.deleteLogic(logic);
+			
+			return new ResponseEntity<String>("Success",HttpStatus.OK);
+			
+		} catch (IOException e) {
+			logger.error("Cannot map request object "+e.getMessage());
+			return new ResponseEntity<String>("Cannot map request object "+ e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
+	
+	// ----- list all stored logic 
 	@RequestMapping(value="/listLogic",method ={RequestMethod.GET})
 	public ResponseEntity listLogic(){
 		
@@ -321,6 +341,7 @@ public class TransactionServiceController {
 	
 
 	
+	// --- convert object as JSON object
 	 private String class2JSON(Object obj){
 		 
 		 ObjectMapper mapper = new ObjectMapper();

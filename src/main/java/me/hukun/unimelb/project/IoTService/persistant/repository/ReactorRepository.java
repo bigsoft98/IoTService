@@ -9,6 +9,8 @@ import me.hukun.unimelb.project.IoTService.domain.Reactor;
 
 public interface ReactorRepository extends MongoRepository<Reactor, String>{
 	
+	
+	// find reactor in db by reactor id
 	@Query("{id:'?0'}")
 	public List<Reactor> findReactorById(String id);
 

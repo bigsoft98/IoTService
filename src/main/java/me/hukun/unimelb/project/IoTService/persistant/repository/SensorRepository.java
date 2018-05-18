@@ -11,9 +11,11 @@ import me.hukun.unimelb.project.IoTService.domain.Sensor;
 public interface SensorRepository extends MongoRepository<Sensor, String>{
 	
 
+	// find sensor in db by id
 	@Query("{id:'?0'}")
 	public List<Sensor> findSensorById(String id);
 
+	// find sensor in db by subscribed mqtt topic
 	@Query("{subMqttTopic:'?0'}")
 	public List<Sensor> findSensorByTopic(String topic);
 	//List<Device> devices = userRepository.findAll(new Sort(Sort.Direction.ASC, "name"));

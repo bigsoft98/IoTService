@@ -11,8 +11,11 @@ import me.hukun.unimelb.project.IoTService.domain.Logic;
 @Repository
 public interface LogicRepository extends MongoRepository<Logic, String>{
 
+	// find Logic in DB by id 
 	@Query("{id:'?0'}")
 	public List<Logic> findLogicById(String id);
+	
+	// find logic in DB by associated sensor id
 	@Query("{sensorId:'?0'}")
 	public List<Logic> findLogicBySensorId(String sensorId);
 

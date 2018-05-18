@@ -1,6 +1,6 @@
 package me.hukun.unimelb.project.IoTService.domain;
 
-
+// Super class of Sensor and Reactor
 public class Device {
 	
 	String name;

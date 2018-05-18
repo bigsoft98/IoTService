@@ -3,6 +3,8 @@ package me.hukun.unimelb.project.IoTService.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+
+// Represent logic relationship created among devices
 @Document(collection = "logic")
 public class Logic {
 	@Id

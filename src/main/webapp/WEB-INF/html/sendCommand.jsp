@@ -45,7 +45,7 @@
 					}
 				
 					function loadCommandOption(commandList, htmlItem){
-						
+						$(htmlItem).empty();
 						for(var i in commandList){
 							$(htmlItem).append($("<option/>", {
 								value: commandList[i],

@@ -44,24 +44,4 @@
         </property>
     </bean>
     
-    <!-- 
-    <bean id ="messageConverter" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultIncomingMsgConverter"/>
-    
-   	<bean id="jmsFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-		<property name ="brokerURL" value="${activeMQ.broker.url}"/>
-	</bean>
-
-	<bean id ="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-		<property name="connectionFactory" ref ="jmsFactory"/>
-		<property name="defaultDestinationName" value="${iotService.inbound.topic.name}"/>
-		<property name="messageConverter" ref="messageConverter"/>
-	</bean>
-    
-    <bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-    	<property name="connectionFactory" ref="jmsFactory"/>
-    	<property name="destinationName" value="${iotService.inbound.topic.name}"/>
-    	<property name="messageListener" ref="myMessageListener" /> 
-	</bean>
-	<bean id="myMessageListener" class="me.hukun.unimelb.project.IoTService.service.impl.DefaultMsgListener"/>
-     -->
 </beans>
