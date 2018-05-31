@@ -26,7 +26,9 @@ mongo.db.port=<the port of the target mongo db server>
 mongo.db.name=<the target mongo db database schema name>
 
 The source code of “My IoT Platform” can be build by running the Maven (3.0) script. (target war fine IoTService.war will be generated once the Maven script is run.
-———————————————————————————————
+
+
+
 Arduino 
 
 Arduino IoT devices are being used as IoT device for testing purpose for this project.
