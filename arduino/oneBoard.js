@@ -1,3 +1,8 @@
+// The purpose of this piece of code is communicate with four pre configured IoT devices
+// A Temperature Sensor (Sensor)
+// Three LEDs (yellow, green, red) (reactors)
+// The reactors can receive command via Mqtt broker
+// The sensor can send value to the target topic via Mqtt broker
 var five = require("johnny-five");
 var mqtt = require("mqtt");
 
@@ -14,18 +19,20 @@ var greenLedCommandTopic ='iot/platform/command/greenLed';
 var tempSensor;
 var tempSensorDataPublishTopic ='iot/platform/data/temp';
 
-
+// connect to mqtt broker
 var mqttClient = mqtt.connect('mqtt://localhost:1883');
 
 mqttClient.subscribe([yellowLedCommandTopic,redLedCommandTopic,greenLedCommandTopic]); 
 
 
 board.on("ready", function() {
-    
+    // set up yellow led (pin 4)
     yellowLed = new five.Led(4);
+    //set up red led (pin 2)
     redLed = new five.Led(2);
+    // set up green led (pin 3)
     greenLed = new five.Led(3);
-    flameSensor = new five.Sensor("A2");
+    //set up temperature sensor (pin A0)
     tempSensor = new five.Thermometer({
         controller: "LM35",
         pin: "A0",
@@ -33,7 +40,7 @@ board.on("ready", function() {
     });
     
 
-
+    // detece temperature change, once the temperature is changed, send the new temp value the target topic via mqtt broker
     tempSensor.on("change", function() {
         currentCelsius = this.celsius;
         currentFahrenheit = this.fahrenheit;
@@ -43,7 +50,7 @@ board.on("ready", function() {
     });
 
 
-
+    // as mqtt client subscribue the messge from topics associate with the reactors 
     mqttClient.on('message', function (topic, payload) {
         var message = payload.toString();
         console.log('Incoming message ['+message+'] from topic ['+topic+']');
