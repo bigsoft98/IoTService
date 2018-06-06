@@ -14,7 +14,7 @@
     http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
     
     
-    <mongo:mongo-client id="mongo" host="127.0.0.1" port="27017"/> 
+    <mongo:mongo-client id="mongo" host="${mongo.db.host}" port="${mongo.db.port}"/> 
 	<mongo:db-factory id="mongoDbFactory" dbname="${mongo.db.name}" mongo-ref="mongo" />
     
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate"> 
