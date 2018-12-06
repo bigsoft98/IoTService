@@ -39,7 +39,7 @@ The end to end test is performed when the environment is setup as shown in figur
 
 
 
-Code under directory “arduino” is node.js based code which uses Jonny-Five library to communicate with Arduino devices.
+Code under directory “arduino” is node.js based code which uses Jonny-Five library to communicate with Arduino devices..
 
 
 
