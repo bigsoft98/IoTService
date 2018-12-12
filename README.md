@@ -38,7 +38,6 @@ Johnny-Five is a JavaScript library which provides a set of JavaScript API for J
 The end to end test is performed when the environment is setup as shown in figure 3.
 
 
-
 Code under directory “arduino” is node.js based code which uses Jonny-Five library to communicate with Arduino devices.
 
 
