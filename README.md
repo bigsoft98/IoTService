@@ -6,7 +6,7 @@ Management of  logic relationship among selected IoT device
 Communication among selected IoT devices. (eg. machine-machine communication)
 
 
-“My IoT Platform” is developed based on Springframe MVC,
+“My IoT Platform” is developed based on Springframe MVC.
 
 “My IoT Platform” offers a list of RESTful based APIs. 
 
